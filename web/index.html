@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>记账本</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>记账本</h1>
+      <p>在浏览器中轻松记录、统计并导出账目数据。</p>
+    </header>
+
+    <main class="layout">
+      <section class="card">
+        <h2>新增账目</h2>
+        <form id="transaction-form" class="form-grid">
+          <label>
+            类型
+            <select id="type" required>
+              <option value="expense">支出</option>
+              <option value="income">收入</option>
+            </select>
+          </label>
+          <label>
+            金额
+            <input id="amount" type="number" min="0" step="0.01" required />
+          </label>
+          <label>
+            分类
+            <input id="category" list="category-options" required />
+            <datalist id="category-options">
+              <option value="餐饮"></option>
+              <option value="交通"></option>
+              <option value="购物"></option>
+              <option value="娱乐"></option>
+              <option value="居住"></option>
+              <option value="工资"></option>
+              <option value="理财"></option>
+            </datalist>
+          </label>
+          <label>
+            日期
+            <input id="date" type="date" required />
+          </label>
+          <label class="full-width">
+            备注
+            <input id="note" type="text" maxlength="80" placeholder="可选" />
+          </label>
+          <button type="submit" class="primary full-width">保存账目</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>收支概览</h2>
+        <div class="summary">
+          <div>
+            <span class="label">总收入</span>
+            <span id="total-income" class="value income">¥0.00</span>
+          </div>
+          <div>
+            <span class="label">总支出</span>
+            <span id="total-expense" class="value expense">¥0.00</span>
+          </div>
+          <div>
+            <span class="label">结余</span>
+            <span id="balance" class="value balance">¥0.00</span>
+          </div>
+        </div>
+        <div class="actions">
+          <button id="download" class="secondary">导出数据</button>
+          <label for="import" class="secondary">导入数据</label>
+          <input id="import" type="file" accept="application/json" hidden />
+          <button id="clear-all" class="danger">清空所有数据</button>
+        </div>
+      </section>
+    </main>
+
+    <section class="card table-card">
+      <div class="table-header">
+        <h2>账目列表</h2>
+        <div class="filters">
+          <label>
+            分类筛选
+            <input id="filter-category" type="text" placeholder="全部分类" />
+          </label>
+          <label>
+            日期范围
+            <div class="range">
+              <input id="filter-from" type="date" />
+              <span>至</span>
+              <input id="filter-to" type="date" />
+            </div>
+          </label>
+          <button id="reset-filters" class="secondary">清除筛选</button>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>日期</th>
+              <th>类型</th>
+              <th>分类</th>
+              <th class="amount">金额</th>
+              <th>备注</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="transaction-table"></tbody>
+        </table>
+        <p id="empty-state" class="empty">暂无账目，请先添加记录。</p>
+      </div>
+    </section>
+
+    <footer class="app-footer">
+      <p>数据保存在本地浏览器中，可随时导出备份。</p>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
